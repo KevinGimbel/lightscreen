@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>lightscreen</title>
+  <style>
+  * {
+      margin: 0; 
+      padding: 0; 
+    box-sizing: border-box;
+  }
+
+  body {
+    background: var(--bg-color, #333);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vw;
+    overflow: hidden;
+  }
+
+  input {
+    font-size: 2rem;
+    display: block;
+  }
+  </style>
+</head>
+<body>
+  <input type="color" id="in-color">
+  <script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function (undefined) {
+    const colorInput = document.querySelector('#in-color');
+    colorInput.addEventListener('change', (event) => {
+      document.body.setAttribute('style', `--bg-color: ${event.srcElement.value};`);
+    });
+  });
+  </script>
+</body>
+</html>
