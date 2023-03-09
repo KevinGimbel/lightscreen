@@ -13,28 +13,89 @@
   }
 
   body {
-    background: var(--bg-color, #333);
+    background: var(--color, hsl(50, 100%, 60%));
+    font: 16px/1.65 sans-serif;
+  }
+
+  .buttons {
+    width: 100vw;
+    height: 90vh;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100vw;
-    height: 100vw;
-    overflow: hidden;
   }
 
-  input {
-    font-size: 2rem;
-    display: block;
+  footer {
+    font-size: small;
+    text-align: center;
   }
+
+  input[type=color] {
+      width: 5em;
+      height: 5em;
+      border: .5em solid black;
+      margin-left: 1em;
+  }
+  button:hover {
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <input type="color" id="in-color">
+  <section class="buttons">
+    <color-button color="hsl(50, 100%, 60%)"></color-button>
+    <color-button color="hsl(40, 100%, 60%)"></color-button>
+    <color-button color="hsl(0, 0, 60%)"></color-button>
+    <input type="color" id="custom-color">
+  </section>
+  <footer>
+    <p>Click a color above or select one from the color picker to turn the whole page into that color.<br> Made with 💖 by <a href="https://kevingimbel.de/">Kevin Gimbel</a> | <a href="https://github.com/KevinGimbel/lightscreen">Source code</a></p>
+  </footer>
   <script type="text/javascript">
+  class ColorButton extends HTMLElement {
+    constructor() {
+      // Web Component setup
+      super();
+      this.attachShadow({mode: "open"})
+      // Get the delay, defaults to 500ms
+      this._color = this.getAttribute('color') || '#fff';
+
+      this.render();
+      this.addEventListener('click', (event) => {
+        console.log(this._color)
+        document.body.style = `--color: ${this._color}`;
+      });
+    }
+    
+    CSS() {
+      return `
+    <style>
+      button {
+        width: 5em;
+        height: 5em;
+        background: ${this._color};
+        border: .5em solid black;
+        margin-left: 1em;
+      }
+      button:hover {
+        cursor: pointer;
+      }
+    </style>
+  `;
+    }
+
+    render() {
+      // Update the innerHTML of the Shadow DOM
+      this.shadowRoot.innerHTML = `${this.CSS()}<button></button>`;
+    }
+  }
+  window.customElements.define('color-button', ColorButton);
+
   document.addEventListener('DOMContentLoaded', function (undefined) {
-    const colorInput = document.querySelector('#in-color');
+    const colorInput = document.querySelector('#custom-color');
     colorInput.addEventListener('change', (event) => {
-      document.body.setAttribute('style', `--bg-color: ${event.srcElement.value};`);
+      document.body.setAttribute('style', `--color: ${event.srcElement.value};`);
     });
   });
   </script>
