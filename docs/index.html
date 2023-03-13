@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="hsl(50, 100%, 60%)">
+  <link id="favicon" rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
   <title>lightscreen</title>
   <style>
   * {
@@ -63,8 +65,8 @@
 
       this.render();
       this.addEventListener('click', (event) => {
-        console.log(this._color)
         document.body.style = `--color: ${this._color}`;
+        document.head.querySelector('meta[name=theme-color]').content = this._color;
       });
     }
     
@@ -96,6 +98,7 @@
     const colorInput = document.querySelector('#custom-color');
     colorInput.addEventListener('change', (event) => {
       document.body.setAttribute('style', `--color: ${event.srcElement.value};`);
+      document.head.querySelector('meta[name=theme-color]').content = event.srcElement.value;
     });
   });
   </script>
